@@ -31,43 +31,45 @@ def start_game():
     ( You can add more features/enhancements if you'd like to. )
     """  
     # write your code inside this function.
+    high_score = 100
     while True:
         answer = random.randint(1, 10)
-        attempts = 1
-        high_score = 100
+        attempts = 1   
         name = input("What is your name?  ")
+        guess = ""
         print("""
         Welcome {}. Today we're going to play a game.
         I will think about a number between 1 and 10. 
         You will try to guess it. Of course some additional
         help and hints will be provided. Best of luck!
         """.format(name))
-        try:
-            guess = int(input("Please enter your guess: "))
-            if guess < 1 or guess > 10:
-                raise ValueError("Only guesses with range (1-10) are allowed")
-        except ValueError as err:
-            print("Oh no, we ran into an issue. {}. Please try again.".format(err))
-        else:
-            while guess != answer:
+        while guess != answer:
+            try:
+                guess = int(input("Please enter your guess: "))
+                if guess < 1 or guess > 10:
+                    raise ValueError("Only guesses with range (1-10) are allowed")
+                    continue
+            except ValueError as err:
+                print("Oh no, we ran into an issue. {}. Please try again.".format(err))
+                continue
+            else:
                 if guess > answer:
                     print("It's lower")
-                    guess = int(input("Please enter your guess:  "))
                     attempts += 1
+                    continue
                 if guess < answer:
                     print("It's higher")
-                    guess = int(input("Please enter your guess:  "))
                     attempts += 1
+                    continue
             print("Got it! The number we were looking for was {}. It took you {} attempts to finish the game".format(answer, attempts))
             if attempts < high_score:
                 high_score = attempts
             play_again = input("Well that was fun. I hope you enjoyed it too! Want to play again?  Y/N? ")
             if play_again.lower() == 'y':            
                 print("The current best score: {} - {} attempts".format(name, high_score))
-                start_game()
+                continue
             else:
                 print("Thanks for hanging with us today {}. Hope to see you soon.".format(name))
-                sys.exit()
-        
+                sys.exit()    
 # Kick off the program by calling the start_game function.
 start_game()
