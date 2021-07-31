@@ -33,9 +33,9 @@ def start_game():
     # write your code inside this function.
     high_score = 100
     while True:
-        answer = random.randint(1, 10)
-        attempts = 1   
         name = input("What is your name?  ")
+        answer = random.randint(1, 10)
+        attempts = 0 
         guess = ""
         print("""
         Welcome {}. Today we're going to play a game.
@@ -44,22 +44,20 @@ def start_game():
         help and hints will be provided. Best of luck!
         """.format(name))
         while guess != answer:
+            attempts += 1
             try:
                 guess = int(input("Please enter your guess: "))
                 if guess < 1 or guess > 10:
-                    raise ValueError("Only guesses with range (1-10) are allowed")
-                    continue
+                    raise ValueError
             except ValueError as err:
-                print("Oh no, we ran into an issue. {}. Please try again.".format(err))
+                print("Only numerical guesses between 1 and 10 are allowed".format(err))
                 continue
             else:
                 if guess > answer:
                     print("It's lower")
-                    attempts += 1
                     continue
                 if guess < answer:
                     print("It's higher")
-                    attempts += 1
                     continue
             print("Got it! The number we were looking for was {}. It took you {} attempts to finish the game".format(answer, attempts))
             if attempts < high_score:
